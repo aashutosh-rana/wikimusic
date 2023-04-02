@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="4dp"
+    android:layout_marginTop="@dimen/margin_top"
+    android:background="@drawable/bg_white_rounded_rectangle_black_border"
+    android:gravity="center"
+    android:paddingHorizontal="4dp"
+    android:paddingVertical="8dp"
+    android:textAppearance="@style/AppTheme.TextStyle.SemiBold"
+    tool:text="Rock" />
