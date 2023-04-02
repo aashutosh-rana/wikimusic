@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme.TextStyle.Regular" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/titilliumweb_regular</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="AppTheme.TextStyle.Bold" parent="AppTheme.TextStyle.Regular">
+        <item name="fontFamily">@font/titilliumweb_bold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="AppTheme.TextStyle.SemiBold" parent="AppTheme.TextStyle.Bold">
+        <item name="fontFamily">@font/titilliumweb_semi_bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
+</resources>
