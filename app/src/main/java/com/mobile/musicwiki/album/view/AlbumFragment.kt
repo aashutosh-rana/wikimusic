@@ -4,16 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import com.mobile.musicwiki.Helper.showToast
 import com.mobile.musicwiki.album.adapter.AlbumRecyclerAdapter
 import com.mobile.musicwiki.album.model.AlbumQuery
+import com.mobile.musicwiki.album.model.AlbumResponse
 import com.mobile.musicwiki.album.viewmodel.AlbumViewModel
 import com.mobile.musicwiki.databinding.FragmentAlbumBinding
-import com.mobile.musicwiki.album.model.AlbumResponse
 import com.mobile.musicwiki.network.ResponseWrapper
 
 class AlbumFragment : Fragment() {
@@ -45,10 +45,9 @@ class AlbumFragment : Fragment() {
                 it.data?.let { it1 -> handleSuccess(it1) }
             }
             is ResponseWrapper.Error -> {
-                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                requireContext().showToast("went wrong while getting albums")
             }
             is ResponseWrapper.Loading -> {
-                Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
             }
         }
     }

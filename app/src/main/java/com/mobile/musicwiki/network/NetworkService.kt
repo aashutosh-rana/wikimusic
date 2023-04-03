@@ -6,7 +6,6 @@ import com.mobile.musicwiki.artist.model.ArtistDetailResponse
 import com.mobile.musicwiki.artist.model.ArtistResponse
 import com.mobile.musicwiki.genre.model.GenreDetailResponse
 import com.mobile.musicwiki.genre.model.GenreResponse
-import com.mobile.musicwiki.model.*
 import com.mobile.musicwiki.track.model.TrackResponse
 import retrofit2.http.GET
 import retrofit2.http.Query

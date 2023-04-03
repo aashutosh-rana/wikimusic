@@ -9,6 +9,7 @@ import com.mobile.musicwiki.genre.model.Toptags
 
 class GenreRecyclerAdapter(
     private val topTags: Toptags?,
+    private val allShown: Boolean = true,
     private val callBack: ((genre: String) -> Unit?)? = null
 ) :
     RecyclerView.Adapter<GenreRecyclerAdapter.GenreViewHolder>() {
@@ -26,13 +27,14 @@ class GenreRecyclerAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(position: Int) {
-            if (position < 10) {
-                binding.root.text = topTags?.tag?.get(position)?.name
-                binding.root.setOnClickListener {
-                    topTags?.tag?.get(position)?.name?.let { it1 -> callBack?.invoke(it1) }
+            binding.root.text = topTags?.tag?.get(position)?.name
+            binding.root.setOnClickListener {
+                topTags?.tag?.get(position)?.name?.let { it1 -> callBack?.invoke(it1) }
+            }
+            if (!allShown) {
+                if (position > 10) {
+                    binding.root.visibility = View.GONE
                 }
-            } else {
-                binding.root.visibility = View.GONE
             }
         }
 

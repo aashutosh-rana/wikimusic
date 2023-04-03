@@ -7,54 +7,66 @@
     android:orientation="vertical"
     tools:context=".album.view.AlbumDetailFragment">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="200dp">
+    <include
+        android:id="@+id/holder_progress"
+        layout="@layout/layout_progress" />
 
-        <ImageView
-            android:id="@+id/iv_cover"
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_ui"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="200dp">
 
-        <include
-            android:id="@+id/holder_toolbar"
-            layout="@layout/layout_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true" />
+            <ImageView
+                android:id="@+id/iv_cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-        <TextView
-            android:id="@+id/tv_artist_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="24dp"
-            android:textAppearance="@style/AppTheme.TextStyle.SemiBold" />
+            <include
+                android:id="@+id/holder_toolbar"
+                layout="@layout/layout_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true" />
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_artist_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="24dp"
+                android:textAppearance="@style/AppTheme.TextStyle.SemiBold" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_genre"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/space_horizontal"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_genre" />
+        </RelativeLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/tv_album_description"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_genre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/space_horizontal"
-            android:gravity="start"
-            android:textAppearance="@style/AppTheme.TextStyle.Regular" />
+            android:layout_margin="@dimen/space_horizontal"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_genre" />
 
-    </ScrollView>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_album_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/space_horizontal"
+                android:gravity="start"
+                android:textAppearance="@style/AppTheme.TextStyle.Regular" />
+
+        </ScrollView>
+    </LinearLayout>
 
 </LinearLayout>

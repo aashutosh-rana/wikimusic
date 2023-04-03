@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.mobile.musicwiki.Helper.onBackPressed
+import com.mobile.musicwiki.Helper.showToast
 import com.mobile.musicwiki.R
 import com.mobile.musicwiki.album.adapter.AlbumRecyclerAdapter
 import com.mobile.musicwiki.album.model.AlbumResponse
@@ -48,6 +49,13 @@ class ArtistDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         artist = arguments?.getString(KEY_ARTIST)
         initViewModel()
+        handleBackButton()
+    }
+
+    private fun handleBackButton() {
+        binding.holderToolbar.ivBack.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     private fun initViewModel() {
@@ -60,43 +68,29 @@ class ArtistDetailFragment : Fragment() {
     }
 
     private val albumObserver = Observer<ResponseWrapper<AlbumResponse>> {
-        when (it) {
-            is ResponseWrapper.Success -> {
-                it.data?.let { it1 -> handleSuccessAlbum(it1) }
-            }
-            is ResponseWrapper.Error -> {
-                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
-            }
-            is ResponseWrapper.Loading -> {
-                Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
-            }
-        }
+        if (it is ResponseWrapper.Success)
+            it.data?.let { it1 -> handleSuccessAlbum(it1) }
     }
 
     private val trackObserver = Observer<ResponseWrapper<TrackResponse>> {
-        when (it) {
-            is ResponseWrapper.Success -> {
-                it.data?.let { it1 -> handleSuccessTrack(it1) }
-            }
-            is ResponseWrapper.Error -> {
-                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
-            }
-            is ResponseWrapper.Loading -> {
-                Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
-            }
-        }
+        if (it is ResponseWrapper.Success)
+            it.data?.let { it1 -> handleSuccessTrack(it1) }
     }
 
     private val artistObserver = Observer<ResponseWrapper<ArtistDetailResponse>> {
         when (it) {
             is ResponseWrapper.Success -> {
                 it.data?.let { it1 -> handleArtistSuccess(it1) }
+                binding.holderProgress.root.visibility = View.GONE
+                binding.llUi.visibility = View.VISIBLE
             }
             is ResponseWrapper.Error -> {
-                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                binding.holderProgress.root.visibility = View.GONE
+                requireContext().showToast()
             }
             is ResponseWrapper.Loading -> {
-                Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
+                binding.holderProgress.root.visibility = View.VISIBLE
+                binding.llUi.visibility = View.GONE
             }
         }
     }

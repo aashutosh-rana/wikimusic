@@ -4,28 +4,30 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
+import com.mobile.musicwiki.Helper.getSliced
+import com.mobile.musicwiki.Helper.onBackPressed
+import com.mobile.musicwiki.Helper.showToast
 import com.mobile.musicwiki.R
 import com.mobile.musicwiki.album.model.AlbumQuery
+import com.mobile.musicwiki.album.model.AlbumResponse
 import com.mobile.musicwiki.album.view.AlbumDetailFragment
 import com.mobile.musicwiki.album.view.AlbumFragment
 import com.mobile.musicwiki.album.viewmodel.AlbumViewModel
+import com.mobile.musicwiki.artist.model.ArtistResponse
 import com.mobile.musicwiki.artist.view.ArtistDetailFragment
 import com.mobile.musicwiki.artist.view.ArtistFragment
 import com.mobile.musicwiki.artist.viewmodel.ArtistViewModel
 import com.mobile.musicwiki.databinding.FragmentGenreDetailBinding
-import com.mobile.musicwiki.genre.viewmodel.GenreViewModel
-import com.mobile.musicwiki.album.model.AlbumResponse
-import com.mobile.musicwiki.artist.model.ArtistResponse
 import com.mobile.musicwiki.genre.model.GenreDetailResponse
-import com.mobile.musicwiki.track.model.TrackResponse
+import com.mobile.musicwiki.genre.viewmodel.GenreViewModel
 import com.mobile.musicwiki.network.ResponseWrapper
+import com.mobile.musicwiki.track.model.TrackResponse
 import com.mobile.musicwiki.track.view.TrackFragment
 import com.mobile.musicwiki.track.viewmodel.TrackViewModel
 
@@ -49,6 +51,7 @@ class GenreDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         genre = arguments?.getString(KEY_GENRE)
         initViewModel()
+        handleBackButton()
     }
 
     private fun initView() {
@@ -64,31 +67,39 @@ class GenreDetailFragment : Fragment() {
         }.attach()
     }
 
+    private fun handleBackButton() {
+        binding.holderToolbar.ivBack.setOnClickListener {
+            onBackPressed()
+        }
+    }
+
     private fun initViewModel() {
         genreViewModel.getGenreDetailResponse().observe(viewLifecycleOwner, genreObserver)
         albumViewModel.getAlbumResponse().observe(viewLifecycleOwner, albumObserver)
         artistViewModel.getArtistResponse().observe(viewLifecycleOwner, artistObserver)
         trackViewModel.getTrackResponse().observe(viewLifecycleOwner, trackObserver)
-        genre?.let { genreViewModel.fetchGenreDetail(genre=it) }
-        genre?.let { albumViewModel.fetchAlbums(genre=it) }
-        genre?.let { artistViewModel.fetchArtist(genre=it) }
-        genre?.let { trackViewModel.fetchTracks(genre=it) }
+        genre?.let { genreViewModel.fetchGenreDetail(genre = it) }
+        genre?.let { albumViewModel.fetchAlbums(genre = it) }
+        genre?.let { artistViewModel.fetchArtist(genre = it) }
+        genre?.let { trackViewModel.fetchTracks(genre = it) }
     }
 
     private val genreObserver = Observer<ResponseWrapper<GenreDetailResponse>> {
         when (it) {
             is ResponseWrapper.Success -> {
                 binding.holderToolbar.tvTitle.text = it.data?.tag?.name
-                val result: String? = it.data?.tag?.wiki?.summary?.indexOf("<")
-                    ?.let { it1 -> it.data.tag?.wiki?.summary?.substring(0, it1) }
-                binding.tvDetail.text = result
+                binding.tvDetail.text = it.data?.tag?.wiki?.summary?.let { it1 -> getSliced(it1) }
+                binding.holderProgress.root.visibility = View.GONE
+                binding.scrollParent.visibility = View.VISIBLE
                 initView()
             }
             is ResponseWrapper.Error -> {
-                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                requireContext().showToast()
+                binding.holderProgress.root.visibility = View.GONE
             }
             is ResponseWrapper.Loading -> {
-                Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
+                binding.holderProgress.root.visibility = View.VISIBLE
+                binding.scrollParent.visibility = View.GONE
             }
         }
     }

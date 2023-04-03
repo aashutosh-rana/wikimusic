@@ -4,20 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.mobile.musicwiki.Helper.getSliced
+import com.mobile.musicwiki.Helper.onBackPressed
+import com.mobile.musicwiki.Helper.showToast
 import com.mobile.musicwiki.R
+import com.mobile.musicwiki.album.model.AlbumDetailResponse
 import com.mobile.musicwiki.album.model.AlbumQuery
 import com.mobile.musicwiki.album.viewmodel.AlbumViewModel
 import com.mobile.musicwiki.databinding.FragmentAlbumDetailBinding
 import com.mobile.musicwiki.genre.adapter.GenreRecyclerAdapter
-import com.mobile.musicwiki.genre.view.GenreDetailFragment
-import com.mobile.musicwiki.album.model.AlbumDetailResponse
 import com.mobile.musicwiki.genre.model.Toptags
+import com.mobile.musicwiki.genre.view.GenreDetailFragment
 import com.mobile.musicwiki.network.ResponseWrapper
 
 class AlbumDetailFragment : Fragment() {
@@ -37,6 +39,13 @@ class AlbumDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         albumQuery = arguments?.getParcelable(KEY_ALBUM)
         initViewModel()
+        handleBackButton()
+    }
+
+    private fun handleBackButton() {
+        binding.holderToolbar.ivBack.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     private fun initViewModel() {
@@ -51,17 +60,21 @@ class AlbumDetailFragment : Fragment() {
         }
     }
 
-    val albumObserver = Observer<ResponseWrapper<AlbumDetailResponse>> {
+    private val albumObserver = Observer<ResponseWrapper<AlbumDetailResponse>> {
         when (it) {
             is ResponseWrapper.Success -> {
                 it.data?.let { it1 -> handleSuccess(it1) }
                 it.data?.album?.tags?.let { it1 -> handleAdapter(it1) }
+                binding.llUi.visibility = View.VISIBLE
+                binding.holderProgress.root.visibility = View.GONE
             }
             is ResponseWrapper.Error -> {
-                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                binding.holderProgress.root.visibility = View.GONE
+                requireContext().showToast()
             }
             is ResponseWrapper.Loading -> {
-                Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
+                binding.llUi.visibility = View.GONE
+                binding.holderProgress.root.visibility = View.VISIBLE
             }
         }
     }
@@ -85,7 +98,8 @@ class AlbumDetailFragment : Fragment() {
                 .into(binding.ivCover)
             binding.tvArtistName.text = this?.artist
             binding.holderToolbar.tvTitle.text = this?.name
-            binding.tvAlbumDescription.text = this?.wiki?.summary
+            binding.tvAlbumDescription.text =
+                this?.wiki?.summary?.let { getSliced(it) }
         }
 
     }

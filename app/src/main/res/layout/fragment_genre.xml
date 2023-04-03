@@ -49,7 +49,12 @@
 
     </LinearLayout>
 
+    <include
+        android:id="@+id/holder_progress"
+        layout="@layout/layout_progress"/>
+
     <androidx.recyclerview.widget.RecyclerView
+        android:visibility="gone"
         android:id="@+id/rv_genre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
