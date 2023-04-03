@@ -1,11 +1,11 @@
-# wikimusic
+# wikimusic<br />
 
-This Single activity multiple fragment app built with MVVM pattern
+This Single activity multiple fragment app built with MVVM pattern<br />
 
-Library used :-
-Dependency injection - Hilt
-Navigation - Navigiation graph api
-Networking - Retrofit
-Debug Network result logging - Chucker
-Image loading - Glide
+Library used :-<br />
+Dependency injection - Hilt<br />
+Navigation - Navigiation graph api<br />
+Networking - Retrofit<br />
+Debug Network result logging - Chucker<br />
+Image loading - Glide<br />
 
