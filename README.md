@@ -9,7 +9,7 @@ Networking - Retrofit<br />
 Debug Network result logging - Chucker<br />
 Image loading - Glide<br />
 
-#Thought Process<br />
+# Thought process<br />
 
 After reading the requirement carefully the first step i done is<br />
 
@@ -22,7 +22,12 @@ After reading the requirement carefully the first step i done is<br />
 7. Design the Navigation graph
 8. Write the Common Helper Class<br />
 9. Wrtie the viewmodel with uses of Live Data for each netowrk call.<br />
-10. Then startet consuming these all the files and method in My Fragments.
+10. Then startet consuming these all the files and method in My Fragments.<br /><br />
+
+# Improvements<br />
+I used canary leak and here the some memory leak detected. It can be improved by making the binding null in each fragments in onDestroyView Methods.
+Second approach would be the making a deligate class which work to make the view references null when fragment goes in to destroy lifecycle and use that delegate class in each fragments.
+
 
 
 SCREENSHOTS
