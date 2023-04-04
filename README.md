@@ -15,8 +15,15 @@ After reading the requirement carefully the first step i done is<br />
 
 1. Define the styles<br />
 2. Define the all resources components like fonts dimensions color etc<br />
-3. Design the common components of XML. eg - Recycler items, toolbar layout, progress layout<br />
-4. Write the Common Helper Class<br />
+3. Unaderstand the API and Make model class related to each api requirement<br />
+4. Write the Network client using Retrofit and hilt<br />
+5. Define the Network services which mentioned in problem statement.<br />
+6. Design the common components of XML. eg - Recycler items, toolbar layout, progress layout<br />
+7. Design the Navigation graph
+8. Write the Common Helper Class<br />
+9. Wrtie the viewmodel with uses of Live Data for each netowrk call.<br />
+10. Then startet consuming these all the files and method in My Fragments.
+
 
 SCREENSHOTS
 
